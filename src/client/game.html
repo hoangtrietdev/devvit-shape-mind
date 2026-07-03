@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, height=device-height, user-scalable=0"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <title>Shape Memoize</title>
+    <link rel="stylesheet" href="game.css" />
+  </head>
+  <body>
+    <!-- Three.js canvas (background) -->
+    <canvas id="bg"></canvas>
+
+    <!-- ── MENU OVERLAY ─────────────────────────────── -->
+    <div id="overlay-menu" class="overlay active">
+      <div class="panel glass">
+        <div class="panel-icon">🧠</div>
+        <h1 class="panel-title" id="menu-greeting">Memory Spin</h1>
+        <p class="panel-desc">
+          Memorize the sequence, then tap the glowing faces in order!
+        </p>
+        <div class="menu-buttons">
+          <button class="btn btn-primary" id="btn-start">▶ Play Game</button>
+          <button class="btn btn-outline" id="btn-view-lb">
+            🏆 Leaderboard
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LEADERBOARD OVERLAY ──────────────────────── -->
+    <div id="overlay-lb" class="overlay">
+      <div class="panel glass lb-full-panel">
+        <h2 class="panel-title">🏆 Leaderboard</h2>
+        <div class="lb-scroll">
+          <ol class="lb-list" id="lb-full-list">
+            <li class="lb-empty">No scores yet. Be the first!</li>
+          </ol>
+        </div>
+        <button class="btn btn-outline" id="btn-lb-back">← Back to Menu</button>
+      </div>
+    </div>
+
+    <!-- ── WON OVERLAY ──────────────────────────────── -->
+    <div id="overlay-won" class="overlay">
+      <div class="panel glass">
+        <div class="panel-icon">🎉</div>
+        <h2 class="panel-title">Level Cleared!</h2>
+        <p class="panel-score" id="won-score">Score: 0</p>
+        <p class="panel-desc" id="won-bonus">Time bonus: +0 pts</p>
+        <button class="btn btn-primary" id="btn-next">Next Level →</button>
+      </div>
+    </div>
+
+    <!-- ── LOST OVERLAY ─────────────────────────────── -->
+    <div id="overlay-lost" class="overlay">
+      <div class="panel glass">
+        <div class="panel-icon">💀</div>
+        <h2 class="panel-title">Game Over</h2>
+        <p class="panel-score" id="lost-score">Score: 0</p>
+        <p class="panel-desc">Too many mistakes or time ran out.</p>
+
+        <!-- Save score section -->
+        <div class="save-section" id="save-section">
+          <p class="save-label">Save your score to the leaderboard:</p>
+          <div class="save-row">
+            <input
+              id="name-input"
+              class="name-input"
+              type="text"
+              placeholder="Your name…"
+              maxlength="20"
+            />
+            <button class="btn btn-save" id="btn-save">Save</button>
+          </div>
+          <p class="save-error" id="save-error" style="display: none">
+            Please enter a name.
+          </p>
+        </div>
+
+        <div class="lost-actions">
+          <button class="btn btn-secondary" id="btn-retry">Try Again</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── IN-GAME HUD ───────────────────────────────── -->
+    <div id="hud" class="hud" style="display: none">
+      <!-- ── Apple-style Dynamic Island HUD ── -->
+      <div class="hud-island glass">
+        <!-- Stats & Hearts -->
+        <div class="island-header">
+          <div class="island-stats">
+            <span class="island-level" id="hud-level">Level 1</span>
+            <span class="island-score" id="hud-score">Score: 0</span>
+          </div>
+
+          <div class="island-hearts">
+            <span class="heart" id="heart-3">❤️</span>
+            <span class="heart" id="heart-2">❤️</span>
+            <span class="heart" id="heart-1">❤️</span>
+          </div>
+        </div>
+
+        <!-- Target Sequence -->
+        <div class="island-sequence">
+          <div class="hud-label" id="hud-phase-label">TARGET SEQUENCE</div>
+          <div class="seq-row" id="seq-row"></div>
+        </div>
+
+        <!-- Timer & Actions -->
+        <div class="island-timer">
+          <div class="timer-header">
+            <span class="hud-label" id="timer-label">TIME REMAINING</span>
+            <span class="timer-val" id="timer-val">45s</span>
+          </div>
+          <div class="progress-bg">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center floating skip button -->
+      <button class="skip-btn glass" id="btn-skip" style="display: none">
+        Skip &amp; Play ▶
+      </button>
+
+      <!-- Center MEMORIZE badge -->
+      <div class="memorize-badge" id="memorize-badge" style="display: none">
+        MEMORIZE
+      </div>
+
+      <!-- Feedback flash -->
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <script type="module" src="game.ts"></script>
+  </body>
+</html>

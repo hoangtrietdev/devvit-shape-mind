@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../dist/types/client",
+    "tsBuildInfoFile": "../dist/types/client/tsconfig.tsbuildinfo",
+    "customConditions": ["browser"],
+    "rootDir": "../src"
+  },
+  "include": ["../src/client/**/*", "../src/lib/gameLogic.ts", "../src/lib/geometryUtils.ts"],
+  "exclude": [],
+  "references": [
+    {
+      "path": "./tsconfig.shared.json"
+    }
+  ]
+}
